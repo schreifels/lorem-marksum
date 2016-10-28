@@ -4,7 +4,7 @@
   "description": "Generate lorem ipsum text in Markdown format",
   "main": "src/generator.js",
   "scripts": {
-    "test": "echo TODO"
+    "test": "mocha"
   },
   "author": "Mike Schreifels <mike@schreifels.org> (http://schreifels.org)",
   "license": "MIT",
@@ -15,5 +15,9 @@
     "placeholder",
     "text",
     "generator"
-  ]
+  ],
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.1.2"
+  }
 }
