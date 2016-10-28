@@ -1,0 +1,19 @@
+{
+  "name": "lorem-marksum",
+  "version": "0.0.1",
+  "description": "Generate lorem ipsum text in Markdown format",
+  "main": "src/generator.js",
+  "scripts": {
+    "test": "echo TODO"
+  },
+  "author": "Mike Schreifels <mike@schreifels.org> (http://schreifels.org)",
+  "license": "MIT",
+  "keywords": [
+    "lorem",
+    "ipsum",
+    "markdown",
+    "placeholder",
+    "text",
+    "generator"
+  ]
+}
