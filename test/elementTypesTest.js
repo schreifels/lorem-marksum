@@ -18,13 +18,12 @@ describe('elementTypes', () => {
     assert.isDefined(elementTypes._ROOT);
   });
 
-  it('defines a set of valid children for each element type', () => {
+  it('relates each string to a corresponding symbol', () => {
     const elementTypeKeys = Object.keys(elementTypes);
 
     elementTypeKeys.forEach((type) => {
-      elementTypes[type].forEach((childType) => {
-        assert.isDefined(elementTypes[childType]);
-      });
+      assert.typeOf(elementTypes[type], 'symbol');
+      assert.strictEqual(elementTypes[type].toString(), `Symbol(${type})`);
     });
   });
 });
