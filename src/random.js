@@ -4,6 +4,19 @@ function fromArray(array) {
   return array[Math.floor(Math.random() * array.length)];
 }
 
+function validHeaderTypesForNextElement(previousElementTypes) {
+  for (let i = previousElementTypes.length - 1; i >= 0; i--) {
+    switch (previousElementTypes[i]) {
+      case 'HEADER_1':
+        return ['HEADER_2'];
+      case 'HEADER_2':
+        return ['HEADER_2', 'HEADER_3'];
+      case 'HEADER_3':
+        return ['HEADER_2', 'HEADER_3'];
+    }
+  }
+}
+
 function randomElementType(previousElementTypes) {
   const validElementTypes = [];
   const previousElementType = previousElementTypes[previousElementTypes.length - 1];
@@ -22,20 +35,13 @@ function randomElementType(previousElementTypes) {
         validElementTypes.push('PARAGRAPH')
         break;
       case 'PARAGRAPH':
-        for (let i = previousElementTypes.length - 1; i >= 0; i--) {
-          if (previousElementTypes[i] === 'HEADER_1') {
-            validElementTypes.push('HEADER_2');
-            break;
-          } else if (previousElementTypes[i] === 'HEADER_2') {
-            validElementTypes.push('HEADER_2', 'HEADER_3');
-            break
-          } else if (previousElementTypes[i] === 'HEADER_3') {
-            validElementTypes.push('HEADER_2', 'HEADER_3');
-            break;
-          }
-
-          validElementTypes.push('PARAGRAPH', 'ORDERED_LIST', 'UNORDERED_LIST');
-        }
+        validElementTypes.concat(validHeaderTypesForNextElement(previousElementTypes));
+        validElementTypes.push('PARAGRAPH', 'ORDERED_LIST', 'UNORDERED_LIST');
+        break;
+      case 'ORDERED_LIST':
+      case 'UNORDERED_LIST':
+        validElementTypes.concat(validHeaderTypesForNextElement(previousElementTypes));
+        validElementTypes.push('PARAGRAPH');
         break;
     }
   }

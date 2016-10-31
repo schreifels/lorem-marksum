@@ -108,5 +108,33 @@ describe('random', () => {
         });
       });
     });
+
+    ['ORDERED_LIST', 'UNORDERED_LIST'].forEach((previousElementType) => {
+      context(`with previousElementType of ${previousElementType}`, () => {
+        context('with no header ancestors', () => {
+          it('returns one of the expected elementTypes', () => {
+            callRepeatedlyAndVerify([previousElementType], (elementType) => {
+              assert.include(['PARAGRAPH'], elementType);
+            });
+          });
+        });
+
+        context('with a header great-grandparent', () => {
+          it('returns one of the expected elementTypes', () => {
+            callRepeatedlyAndVerify(['HEADER_1', 'PARAGRAPH', previousElementType], (elementType) => {
+              assert.include(['HEADER_2', 'PARAGRAPH'], elementType);
+            });
+
+            callRepeatedlyAndVerify(['HEADER_1', 'HEADER_2', 'PARAGRAPH', previousElementType], (elementType) => {
+              assert.include(['HEADER_2', 'HEADER_3', 'PARAGRAPH'], elementType);
+            });
+
+            callRepeatedlyAndVerify(['HEADER_1', 'HEADER_2', 'HEADER_3', 'PARAGRAPH', previousElementType], (elementType) => {
+              assert.include(['HEADER_2', 'HEADER_3', 'PARAGRAPH'], elementType);
+            });
+          });
+        });
+      });
+    });
   });
 });
