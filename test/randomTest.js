@@ -51,9 +51,61 @@ describe('random', () => {
       }
     }
 
-    it('always returns HEADER_1 for the initial element', () => {
-      callRepeatedlyAndVerify([], () => {
-        assert.strictEqual(random.randomElementType([]), 'HEADER_1');
+    context('with no previousElementTypes', () => {
+      it('returns one of the expected elementTypes', () => {
+        callRepeatedlyAndVerify([], (elementType) => {
+          assert.strictEqual(elementType, 'HEADER_1');
+        });
+      });
+    });
+
+    context('with previousElementType of HEADER_1', () => {
+      it('returns one of the expected elementTypes', () => {
+        callRepeatedlyAndVerify(['HEADER_1'], (elementType) => {
+          assert.include(['HEADER_2', 'PARAGRAPH'], elementType);
+        });
+      });
+    });
+
+    context('with previousElementType of HEADER_2', () => {
+      it('returns one of the expected elementTypes', () => {
+        callRepeatedlyAndVerify(['HEADER_2'], (elementType) => {
+          assert.include(['HEADER_3', 'PARAGRAPH'], elementType);
+        });
+      });
+    });
+
+    context('with previousElementType of HEADER_3', () => {
+      it('returns one of the expected elementTypes', () => {
+        callRepeatedlyAndVerify(['HEADER_3'], (elementType) => {
+          assert.strictEqual(elementType, 'PARAGRAPH');
+        });
+      });
+    });
+
+    context('with previousElementType of PARAGRAPH', () => {
+      context('with no header ancestors', () => {
+        it('returns one of the expected elementTypes', () => {
+          callRepeatedlyAndVerify(['PARAGRAPH'], (elementType) => {
+            assert.include(['PARAGRAPH', 'ORDERED_LIST', 'UNORDERED_LIST'], elementType);
+          });
+        });
+      });
+
+      context('with a header great-grandparent', () => {
+        it('returns one of the expected elementTypes', () => {
+          callRepeatedlyAndVerify(['HEADER_1', 'PARAGRAPH', 'PARAGRAPH'], (elementType) => {
+            assert.include(['HEADER_2', 'PARAGRAPH', 'ORDERED_LIST', 'UNORDERED_LIST'], elementType);
+          });
+
+          callRepeatedlyAndVerify(['HEADER_1', 'HEADER_2', 'PARAGRAPH', 'PARAGRAPH'], (elementType) => {
+            assert.include(['HEADER_2', 'HEADER_3', 'PARAGRAPH', 'ORDERED_LIST', 'UNORDERED_LIST'], elementType);
+          });
+
+          callRepeatedlyAndVerify(['HEADER_1', 'HEADER_2', 'HEADER_3', 'PARAGRAPH', 'PARAGRAPH'], (elementType) => {
+            assert.include(['HEADER_2', 'HEADER_3', 'PARAGRAPH', 'ORDERED_LIST', 'UNORDERED_LIST'], elementType);
+          });
+        });
       });
     });
   });
