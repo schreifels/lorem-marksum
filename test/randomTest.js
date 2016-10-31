@@ -43,4 +43,18 @@ describe('random', () => {
       generateRandomValue();
     });
   });
+
+  describe('#randomElementType', () => {
+    function callRepeatedlyAndVerify(previousElementTypes, callback) {
+      for (let i = 0; i < 1000; i++) {
+        callback(random.randomElementType(previousElementTypes));
+      }
+    }
+
+    it('always returns HEADER_1 for the initial element', () => {
+      callRepeatedlyAndVerify([], () => {
+        assert.strictEqual(random.randomElementType([]), 'HEADER_1');
+      });
+    });
+  });
 });
