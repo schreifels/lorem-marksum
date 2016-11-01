@@ -10,12 +10,26 @@ describe('elementTypes', () => {
         assert.deepEqual(elementTypes.forNextElement([]),
                           ['HEADER_1']);
       });
+
+      context('when last element', () => {
+        it('returns the correct element types', () => {
+          assert.deepEqual(elementTypes.forNextElement([], true),
+                            ['HEADER_1']);
+        });
+      });
     });
 
     context('with previousElementType of HEADER_1', () => {
       it('returns the correct element types', () => {
         assert.deepEqual(elementTypes.forNextElement(['HEADER_1']),
                           ['HEADER_2', 'PARAGRAPH']);
+      });
+
+      context('when last element', () => {
+        it('returns the correct element types', () => {
+          assert.deepEqual(elementTypes.forNextElement(['HEADER_1'], true),
+                            ['PARAGRAPH']);
+        });
       });
     });
 
@@ -24,12 +38,26 @@ describe('elementTypes', () => {
         assert.deepEqual(elementTypes.forNextElement(['HEADER_2']),
                           ['HEADER_3', 'PARAGRAPH']);
       });
+
+      context('when last element', () => {
+        it('returns the correct element types', () => {
+          assert.deepEqual(elementTypes.forNextElement(['HEADER_2'], true),
+                            ['PARAGRAPH']);
+        });
+      });
     });
 
     context('with previousElementType of HEADER_3', () => {
       it('returns the correct element types', () => {
         assert.deepEqual(elementTypes.forNextElement(['HEADER_3']),
                           ['PARAGRAPH']);
+      });
+
+      context('when last element', () => {
+        it('returns the correct element types', () => {
+          assert.deepEqual(elementTypes.forNextElement(['HEADER_3'], true),
+                            ['PARAGRAPH']);
+        });
       });
     });
 
@@ -38,6 +66,13 @@ describe('elementTypes', () => {
         it('returns the correct element types', () => {
           assert.deepEqual(elementTypes.forNextElement(['PARAGRAPH']),
                             ['PARAGRAPH', 'ORDERED_LIST', 'UNORDERED_LIST']);
+        });
+
+        context('when last element', () => {
+          it('returns the correct element types', () => {
+            assert.deepEqual(elementTypes.forNextElement(['PARAGRAPH'], true),
+                              ['PARAGRAPH', 'ORDERED_LIST', 'UNORDERED_LIST']);
+          });
         });
       });
 
@@ -50,6 +85,17 @@ describe('elementTypes', () => {
           assert.deepEqual(elementTypes.forNextElement(['HEADER_1', 'HEADER_2', 'HEADER_3', 'PARAGRAPH', 'PARAGRAPH']),
                             ['HEADER_2', 'HEADER_3', 'PARAGRAPH', 'ORDERED_LIST', 'UNORDERED_LIST']);
         });
+
+        context('when last element', () => {
+          it('returns the correct element types', () => {
+            assert.deepEqual(elementTypes.forNextElement(['HEADER_1', 'PARAGRAPH', 'PARAGRAPH'], true),
+                              ['PARAGRAPH', 'ORDERED_LIST', 'UNORDERED_LIST']);
+            assert.deepEqual(elementTypes.forNextElement(['HEADER_1', 'HEADER_2', 'PARAGRAPH', 'PARAGRAPH'], true),
+                              ['PARAGRAPH', 'ORDERED_LIST', 'UNORDERED_LIST']);
+            assert.deepEqual(elementTypes.forNextElement(['HEADER_1', 'HEADER_2', 'HEADER_3', 'PARAGRAPH', 'PARAGRAPH'], true),
+                              ['PARAGRAPH', 'ORDERED_LIST', 'UNORDERED_LIST']);
+          });
+        });
       });
     });
 
@@ -59,6 +105,13 @@ describe('elementTypes', () => {
           it('returns the correct element types', () => {
             assert.deepEqual(elementTypes.forNextElement([previousElementType]),
                               ['PARAGRAPH']);
+          });
+
+          context('when last element', () => {
+            it('returns the correct element types', () => {
+              assert.deepEqual(elementTypes.forNextElement([previousElementType], true),
+                                ['PARAGRAPH']);
+            });
           });
         });
 
@@ -70,6 +123,17 @@ describe('elementTypes', () => {
                               ['HEADER_2', 'HEADER_3', 'PARAGRAPH']);
             assert.deepEqual(elementTypes.forNextElement(['HEADER_1', 'HEADER_2', 'HEADER_3', 'PARAGRAPH', previousElementType]),
                               ['HEADER_2', 'HEADER_3', 'PARAGRAPH']);
+          });
+
+          context('when last element', () => {
+            it('returns the correct element types', () => {
+              assert.deepEqual(elementTypes.forNextElement(['HEADER_1', 'PARAGRAPH', previousElementType], true),
+                                ['PARAGRAPH']);
+              assert.deepEqual(elementTypes.forNextElement(['HEADER_1', 'HEADER_2', 'PARAGRAPH', previousElementType], true),
+                                ['PARAGRAPH']);
+              assert.deepEqual(elementTypes.forNextElement(['HEADER_1', 'HEADER_2', 'HEADER_3', 'PARAGRAPH', previousElementType], true),
+                                ['PARAGRAPH']);
+            });
           });
         });
       });

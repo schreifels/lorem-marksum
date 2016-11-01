@@ -24,9 +24,9 @@ function headerTypesForNextElement(previousElementTypes) {
   return [];
 }
 
-function forNextElement(previousElementTypes) {
-  const validElementTypes = [];
+function forNextElement(previousElementTypes, isLast) {
   const previousElementType = previousElementTypes[previousElementTypes.length - 1];
+  let validElementTypes = [];
 
   if (!previousElementType) {
     validElementTypes.push('HEADER_1');
@@ -51,6 +51,12 @@ function forNextElement(previousElementTypes) {
         validElementTypes.push('PARAGRAPH');
         break;
     }
+  }
+
+  if (isLast) {
+    validElementTypes = validElementTypes.filter((elementType) => {
+      return ['HEADER_2', 'HEADER_3'].indexOf(elementType) === -1;
+    });
   }
 
   return validElementTypes;
