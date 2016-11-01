@@ -1,5 +1,14 @@
 'use strict';
 
+const weightsByElementType = {
+  'HEADER_1': 1,
+  'HEADER_2': 1,
+  'HEADER_3': 1,
+  'PARAGRAPH': 10,
+  'ORDERED_LIST': 1,
+  'UNORDERED_LIST': 1
+};
+
 function headerTypesForNextElement(previousElementTypes) {
   for (let i = previousElementTypes.length - 1; i >= 0; i--) {
     switch (previousElementTypes[i]) {
@@ -47,6 +56,19 @@ function forNextElement(previousElementTypes) {
   return validElementTypes;
 }
 
+function weightsFor(elementTypes) {
+  return elementTypes.map((elementType) => {
+    const weights = weightsByElementType[elementType];
+
+    if (weights) {
+      return weights;
+    } else {
+      throw new Error(`"${elementType}" is not a recognized element type`);
+    }
+  });
+}
+
 module.exports = {
-  forNextElement
+  forNextElement,
+  weightsFor
 };

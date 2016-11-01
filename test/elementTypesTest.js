@@ -75,4 +75,30 @@ describe('elementTypes', () => {
       });
     });
   });
+
+  describe('#weightsFor', () => {
+    it('returns an array of the correct weights', () => {
+      assert.deepEqual(
+        elementTypes.weightsFor(['HEADER_1', 'HEADER_2', 'HEADER_3', 'PARAGRAPH', 'ORDERED_LIST', 'UNORDERED_LIST']),
+        [1, 1, 1, 10, 1, 1]
+      );
+    });
+
+    it('does not care about order', () => {
+      assert.deepEqual(
+        elementTypes.weightsFor(['ORDERED_LIST', 'HEADER_1', 'PARAGRAPH']),
+        [1, 1, 10]
+      );
+    });
+
+    it('returns an empty array when given no element types', () => {
+      assert.deepEqual(elementTypes.weightsFor([]), []);
+    });
+
+    it('throws when given an invalid elementType', () => {
+      assert.throws(() => {
+        elementTypes.weightsFor(['INVALID_ELEMENT_TYPE']);
+      }, '"INVALID_ELEMENT_TYPE" is not a recognized element type');
+    });
+  });
 });
