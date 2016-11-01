@@ -15,9 +15,11 @@ function validHeaderTypesForNextElement(previousElementTypes) {
         return ['HEADER_2', 'HEADER_3'];
     }
   }
+
+  return [];
 }
 
-function randomElementType(previousElementTypes) {
+function validElementTypesForNextElement(previousElementTypes) {
   const validElementTypes = [];
   const previousElementType = previousElementTypes[previousElementTypes.length - 1];
 
@@ -35,21 +37,21 @@ function randomElementType(previousElementTypes) {
         validElementTypes.push('PARAGRAPH')
         break;
       case 'PARAGRAPH':
-        validElementTypes.concat(validHeaderTypesForNextElement(previousElementTypes));
+        validElementTypes.push(...validHeaderTypesForNextElement(previousElementTypes));
         validElementTypes.push('PARAGRAPH', 'ORDERED_LIST', 'UNORDERED_LIST');
         break;
       case 'ORDERED_LIST':
       case 'UNORDERED_LIST':
-        validElementTypes.concat(validHeaderTypesForNextElement(previousElementTypes));
+        validElementTypes.push(...validHeaderTypesForNextElement(previousElementTypes));
         validElementTypes.push('PARAGRAPH');
         break;
     }
   }
 
-  return fromArray(validElementTypes);
+  return validElementTypes;
 }
 
 module.exports = {
   fromArray,
-  randomElementType
+  validElementTypesForNextElement
 };

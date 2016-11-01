@@ -44,67 +44,51 @@ describe('random', () => {
     });
   });
 
-  describe('#randomElementType', () => {
-    function callRepeatedlyAndVerify(previousElementTypes, callback) {
-      for (let i = 0; i < 1000; i++) {
-        callback(random.randomElementType(previousElementTypes));
-      }
-    }
-
+  describe('#validElementTypesForNextElement', () => {
     context('with no previousElementTypes', () => {
-      it('returns one of the expected elementTypes', () => {
-        callRepeatedlyAndVerify([], (elementType) => {
-          assert.strictEqual(elementType, 'HEADER_1');
-        });
+      it('returns the correct element types', () => {
+        assert.deepEqual(random.validElementTypesForNextElement([]),
+                          ['HEADER_1']);
       });
     });
 
     context('with previousElementType of HEADER_1', () => {
-      it('returns one of the expected elementTypes', () => {
-        callRepeatedlyAndVerify(['HEADER_1'], (elementType) => {
-          assert.include(['HEADER_2', 'PARAGRAPH'], elementType);
-        });
+      it('returns the correct element types', () => {
+        assert.deepEqual(random.validElementTypesForNextElement(['HEADER_1']),
+                          ['HEADER_2', 'PARAGRAPH']);
       });
     });
 
     context('with previousElementType of HEADER_2', () => {
-      it('returns one of the expected elementTypes', () => {
-        callRepeatedlyAndVerify(['HEADER_2'], (elementType) => {
-          assert.include(['HEADER_3', 'PARAGRAPH'], elementType);
-        });
+      it('returns the correct element types', () => {
+        assert.deepEqual(random.validElementTypesForNextElement(['HEADER_2']),
+                          ['HEADER_3', 'PARAGRAPH']);
       });
     });
 
     context('with previousElementType of HEADER_3', () => {
-      it('returns one of the expected elementTypes', () => {
-        callRepeatedlyAndVerify(['HEADER_3'], (elementType) => {
-          assert.strictEqual(elementType, 'PARAGRAPH');
-        });
+      it('returns the correct element types', () => {
+        assert.deepEqual(random.validElementTypesForNextElement(['HEADER_3']),
+                          ['PARAGRAPH']);
       });
     });
 
     context('with previousElementType of PARAGRAPH', () => {
       context('with no header ancestors', () => {
-        it('returns one of the expected elementTypes', () => {
-          callRepeatedlyAndVerify(['PARAGRAPH'], (elementType) => {
-            assert.include(['PARAGRAPH', 'ORDERED_LIST', 'UNORDERED_LIST'], elementType);
-          });
+        it('returns the correct element types', () => {
+          assert.deepEqual(random.validElementTypesForNextElement(['PARAGRAPH']),
+                            ['PARAGRAPH', 'ORDERED_LIST', 'UNORDERED_LIST']);
         });
       });
 
       context('with a header great-grandparent', () => {
-        it('returns one of the expected elementTypes', () => {
-          callRepeatedlyAndVerify(['HEADER_1', 'PARAGRAPH', 'PARAGRAPH'], (elementType) => {
-            assert.include(['HEADER_2', 'PARAGRAPH', 'ORDERED_LIST', 'UNORDERED_LIST'], elementType);
-          });
-
-          callRepeatedlyAndVerify(['HEADER_1', 'HEADER_2', 'PARAGRAPH', 'PARAGRAPH'], (elementType) => {
-            assert.include(['HEADER_2', 'HEADER_3', 'PARAGRAPH', 'ORDERED_LIST', 'UNORDERED_LIST'], elementType);
-          });
-
-          callRepeatedlyAndVerify(['HEADER_1', 'HEADER_2', 'HEADER_3', 'PARAGRAPH', 'PARAGRAPH'], (elementType) => {
-            assert.include(['HEADER_2', 'HEADER_3', 'PARAGRAPH', 'ORDERED_LIST', 'UNORDERED_LIST'], elementType);
-          });
+        it('returns the correct element types', () => {
+          assert.deepEqual(random.validElementTypesForNextElement(['HEADER_1', 'PARAGRAPH', 'PARAGRAPH']),
+                            ['HEADER_2', 'PARAGRAPH', 'ORDERED_LIST', 'UNORDERED_LIST']);
+          assert.deepEqual(random.validElementTypesForNextElement(['HEADER_1', 'HEADER_2', 'PARAGRAPH', 'PARAGRAPH']),
+                            ['HEADER_2', 'HEADER_3', 'PARAGRAPH', 'ORDERED_LIST', 'UNORDERED_LIST']);
+          assert.deepEqual(random.validElementTypesForNextElement(['HEADER_1', 'HEADER_2', 'HEADER_3', 'PARAGRAPH', 'PARAGRAPH']),
+                            ['HEADER_2', 'HEADER_3', 'PARAGRAPH', 'ORDERED_LIST', 'UNORDERED_LIST']);
         });
       });
     });
@@ -112,26 +96,20 @@ describe('random', () => {
     ['ORDERED_LIST', 'UNORDERED_LIST'].forEach((previousElementType) => {
       context(`with previousElementType of ${previousElementType}`, () => {
         context('with no header ancestors', () => {
-          it('returns one of the expected elementTypes', () => {
-            callRepeatedlyAndVerify([previousElementType], (elementType) => {
-              assert.include(['PARAGRAPH'], elementType);
-            });
+          it('returns the correct element types', () => {
+            assert.deepEqual(random.validElementTypesForNextElement([previousElementType]),
+                              ['PARAGRAPH']);
           });
         });
 
         context('with a header great-grandparent', () => {
-          it('returns one of the expected elementTypes', () => {
-            callRepeatedlyAndVerify(['HEADER_1', 'PARAGRAPH', previousElementType], (elementType) => {
-              assert.include(['HEADER_2', 'PARAGRAPH'], elementType);
-            });
-
-            callRepeatedlyAndVerify(['HEADER_1', 'HEADER_2', 'PARAGRAPH', previousElementType], (elementType) => {
-              assert.include(['HEADER_2', 'HEADER_3', 'PARAGRAPH'], elementType);
-            });
-
-            callRepeatedlyAndVerify(['HEADER_1', 'HEADER_2', 'HEADER_3', 'PARAGRAPH', previousElementType], (elementType) => {
-              assert.include(['HEADER_2', 'HEADER_3', 'PARAGRAPH'], elementType);
-            });
+          it('returns the correct element types', () => {
+            assert.deepEqual(random.validElementTypesForNextElement(['HEADER_1', 'PARAGRAPH', previousElementType]),
+                              ['HEADER_2', 'PARAGRAPH']);
+            assert.deepEqual(random.validElementTypesForNextElement(['HEADER_1', 'HEADER_2', 'PARAGRAPH', previousElementType]),
+                              ['HEADER_2', 'HEADER_3', 'PARAGRAPH']);
+            assert.deepEqual(random.validElementTypesForNextElement(['HEADER_1', 'HEADER_2', 'HEADER_3', 'PARAGRAPH', previousElementType]),
+                              ['HEADER_2', 'HEADER_3', 'PARAGRAPH']);
           });
         });
       });
