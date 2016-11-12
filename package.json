@@ -6,6 +6,7 @@
   "scripts": {
     "test": "mocha"
   },
+  "bin": "./bin/lorem-marksum",
   "author": "Mike Schreifels <mike@schreifels.org> (http://schreifels.org)",
   "license": "MIT",
   "keywords": [
