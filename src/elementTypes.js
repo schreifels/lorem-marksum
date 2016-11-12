@@ -1,5 +1,7 @@
 'use strict';
 
+const weighted = require('weighted');
+
 const weightsByElementType = {
   'HEADER_1': 1,
   'HEADER_2': 1,
@@ -74,7 +76,20 @@ function weightsFor(elementTypes) {
   });
 }
 
+function generate(numElementTypes) {
+  const selectedElementTypes = [];
+
+  for (let i = 1; i <= numElementTypes; i++) {
+    const possibleElementTypes = forNextElement(selectedElementTypes, i === numElementTypes);
+    const elementType = weighted.select(possibleElementTypes, weightsFor(possibleElementTypes));
+    selectedElementTypes.push(elementType);
+  }
+
+  return selectedElementTypes;
+}
+
 module.exports = {
   forNextElement,
-  weightsFor
+  weightsFor,
+  generate
 };

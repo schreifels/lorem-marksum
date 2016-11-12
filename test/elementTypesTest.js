@@ -165,4 +165,11 @@ describe('elementTypes', () => {
       }, '"INVALID_ELEMENT_TYPE" is not a recognized element type');
     });
   });
+
+  describe('#generate', () => {
+    it('returns the correct number of element types', () => {
+      console.log(elementTypes.generate(5));
+      assert.strictEqual(elementTypes.generate(5).length, 5);
+    });
+  });
 });
