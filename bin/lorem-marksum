@@ -4,10 +4,15 @@
 
 const random = require('../src/random');
 const elementTypes = require('../src/elementTypes');
+const element = require('../src/element');
 
 const args = process.argv.slice(2);
 const minElementTypes = parseInt(args[0]) || 10;
 const maxElementTypes = parseInt(args[1]) || (minElementTypes * 2);
 const numElementTypes = random.intInRange(minElementTypes, maxElementTypes);
 
-console.log(elementTypes.generate(numElementTypes));
+const output = elementTypes.generate(numElementTypes).map((elementType) => {
+  return element.generate(elementType);
+}).join("\n\n");
+
+console.log(output);
