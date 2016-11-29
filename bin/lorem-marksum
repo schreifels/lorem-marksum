@@ -2,17 +2,15 @@
 
 'use strict';
 
-const random = require('../src/random');
-const elementTypes = require('../src/elementTypes');
-const element = require('../src/element');
+const loremMarksum = require('../src/index');
 
 const args = process.argv.slice(2);
-const minElementTypes = parseInt(args[0]) || 10;
-const maxElementTypes = parseInt(args[1]) || (minElementTypes * 2);
-const numElementTypes = random.intInRange(minElementTypes, maxElementTypes);
+const minElements = parseInt(args[0]);
+const maxElements = parseInt(args[1]);
 
-const output = elementTypes.generate(numElementTypes).map((elementType) => {
-  return element.generate(elementType);
-}).join("\n\n");
+const output = loremMarksum({
+  minElements: minElements,
+  maxElements: maxElements
+});
 
 console.log(output);
