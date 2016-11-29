@@ -22,6 +22,7 @@
     "mocha": "^3.1.2"
   },
   "dependencies": {
+    "commander": "^2.9.0",
     "lorem-ipsum": "^1.0.3",
     "weighted": "^0.3.0"
   }

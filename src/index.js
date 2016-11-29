@@ -5,16 +5,16 @@ const elementTypes = require('../src/elementTypes');
 const element = require('../src/element');
 
 module.exports = (opts = {}) => {
+  if (typeof opts.minElements !== 'undefined' && !Number.isInteger(opts.minElements)) {
+    throw new Error(`Must provide an integer for minElements: ${opts.minElements}`);
+  }
+
+  if (typeof opts.maxElements !== 'undefined' && !Number.isInteger(opts.maxElements)) {
+    throw new Error(`Must provide an integer for maxElements: ${opts.maxElements}`);
+  }
+
   const minElements = opts.minElements || 10;
   const maxElements = opts.maxElements || (minElements * 2);
-
-  if (!Number.isInteger(minElements)) {
-    throw new Error(`Must provide an integer for minElements: ${minElements}`);
-  }
-
-  if (!Number.isInteger(maxElements)) {
-    throw new Error(`Must provide an integer for maxElements: ${maxElements}`);
-  }
 
   if (minElements > maxElements) {
     throw new Error(`minElements (${minElements}) must be less than or equal to maxElements (${maxElements})`);

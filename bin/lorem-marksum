@@ -2,15 +2,18 @@
 
 'use strict';
 
+const program = require('commander');
 const loremMarksum = require('../src/index');
 
-const args = process.argv.slice(2);
-const minElements = parseInt(args[0]);
-const maxElements = parseInt(args[1]);
+program
+  .version('HEAD')
+  .option('-m, --min-elements <i>', 'Specify minimum number of elements, defaults to 10', parseInt)
+  .option('-x, --max-elements <i>', 'Specify maximum number of elements, defaults to 2x min elements', parseInt)
+  .parse(process.argv);
 
 const output = loremMarksum({
-  minElements: minElements,
-  maxElements: maxElements
+  minElements: program.minElements,
+  maxElements: program.maxElements
 });
 
 console.log(output);
