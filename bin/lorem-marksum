@@ -9,8 +9,8 @@ const defaults = require('../src/defaults');
 program
   .version('HEAD')
   .description('Generate Markdown documents using lorem ipsum placeholder text')
-  .option('-m, --min-elements <i>', `Specify minimum number of elements, defaults to ${defaults.minElements.describe}`, parseInt)
-  .option('-x, --max-elements <i>', `Specify maximum number of elements, defaults to ${defaults.maxElements.describe}`, parseInt)
+  .option('-m, --min-elements <n>', `Specify minimum number of elements, defaults to ${defaults.minElements.describe}`, parseInt)
+  .option('-x, --max-elements <n>', `Specify maximum number of elements, defaults to ${defaults.maxElements.describe}`, parseInt)
   .parse(process.argv);
 
 const output = loremMarksum({
