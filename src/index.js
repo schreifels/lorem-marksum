@@ -1,8 +1,8 @@
 'use strict';
 
-const random = require('../src/random');
-const elementTypes = require('../src/elementTypes');
-const element = require('../src/element');
+const random = require('./random');
+const elementTypes = require('./elementTypes');
+const element = require('./element');
 
 module.exports = (opts = {}) => {
   if (typeof opts.minElements !== 'undefined' && !Number.isInteger(opts.minElements)) {
