@@ -6,11 +6,6 @@ function intInRange(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function fromArray(array) {
-  return array[Math.floor(Math.random() * array.length)];
-}
-
 module.exports = {
-  intInRange,
-  fromArray
+  intInRange
 };

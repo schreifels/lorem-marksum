@@ -29,18 +29,4 @@ describe('random', () => {
       }, expectedValues, done);
     });
   });
-
-  describe('#fromArray', () => {
-    it('returns undefined when given an empty array', () => {
-      assert.isUndefined(random.fromArray([]));
-    });
-
-    it('returns all possible values given enough iterations', (done) => {
-      const values = [1, 2, 3];
-
-      assertReturnsAllValues(() => {
-        return random.fromArray(values);
-      }, values, done);
-    });
-  });
 });
